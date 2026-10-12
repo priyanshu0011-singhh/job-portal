@@ -1,0 +1,12 @@
+.git
+.github
+.vscode
+.mvn/wrapper/maven-wrapper.jar
+bin
+target
+demo
+uploads
+.env
+.env.*
+*.env
+*.log

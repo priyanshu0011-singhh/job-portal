@@ -1,0 +1,6 @@
+{$DOMAIN:localhost} {
+	encode zstd gzip
+	@actuator path /actuator/*
+	respond @actuator 404
+	reverse_proxy app:8099
+}
