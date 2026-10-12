@@ -302,7 +302,7 @@ The Docker Compose setup runs PostgreSQL and the API with persistent database/re
 
 The repository includes a Render Blueprint (`render.yaml`) for a free Docker web service. It uses the `render` Spring profile, an automatically generated JWT secret, and in-memory H2 rather than a billable managed database. The service may sleep when idle, and its database and uploaded resumes are temporary: they can disappear after a restart, redeploy, or sleep cycle. Use this only as a recruiter demo with synthetic data, not for real users or production records. Do not upgrade the service or add paid resources if a zero-cost deployment is required.
 
-To deploy, create a new Blueprint from this GitHub repository in Render and keep the web service plan set to `Free`. The public root URL returns API status JSON; the interactive API documentation is at `/swagger-ui/index.html`.
+The public root URL serves a recruiter-facing project landing page. The interactive API documentation is at `/swagger-ui/index.html`.
 
 Create a local environment file. The script prompts for the first admin details and generates random database/JWT secrets; it stores the file under `%LOCALAPPDATA%\JobPortal`, outside this OneDrive-synced project, and restricts its Windows ACL to your account and SYSTEM:
 
@@ -389,4 +389,3 @@ GitHub
 https://github.com/NikStack20
 
 END OF README.md
-

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b2d">
+  <meta name="description" content="A secure job portal API demo built with Spring Boot, Java, and JWT authentication.">
+  <title>Job Portal API | Project Demo</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #172338;
+      background: #f4f7fb;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      --navy: #101b2d;
+      --blue: #315eea;
+      --muted: #68758a;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    a { color: inherit; }
+    .topbar { height: 72px; display: flex; align-items: center; justify-content: space-between; max-width: 1120px; margin: auto; padding: 0 28px; }
+    .brand { display: flex; align-items: center; gap: 11px; color: var(--navy); font-size: 15px; font-weight: 750; letter-spacing: -.02em; text-decoration: none; }
+    .brand-mark { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 11px; color: white; background: var(--blue); font-size: 18px; }
+    .top-link { color: #48566d; font-size: 14px; font-weight: 650; text-decoration: none; }
+    .top-link:hover { color: var(--blue); }
+    main { max-width: 1120px; margin: auto; padding: 35px 28px 72px; }
+    .hero { position: relative; overflow: hidden; padding: 66px 68px 62px; border-radius: 24px; color: white; background: radial-gradient(ellipse at 86% 0%, #314d7e 0, transparent 44%), linear-gradient(125deg, #101b2d 5%, #172945 100%); box-shadow: 0 22px 60px #1a2d4a1c; }
+    .hero::after { position: absolute; right: -90px; bottom: -235px; width: 470px; height: 470px; border: 1px solid #ffffff16; border-radius: 50%; box-shadow: 0 0 0 48px #ffffff08, 0 0 0 96px #ffffff06; content: ""; pointer-events: none; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #b9cdfd; font-size: 12px; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #55dfaa; box-shadow: 0 0 0 4px #55dfaa22; }
+    h1 { max-width: 680px; margin: 24px 0 18px; font-size: clamp(38px, 6vw, 62px); line-height: 1.04; letter-spacing: -.055em; }
+    .intro { max-width: 620px; margin: 0; color: #c6d2e3; font-size: 17px; line-height: 1.7; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; padding: 0 19px; border: 1px solid transparent; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform .15s ease, background .15s ease; }
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { color: white; background: var(--blue); box-shadow: 0 8px 20px #315eea55; }
+    .button-primary:hover { background: #244ed5; }
+    .button-secondary { border-color: #ffffff35; color: #f2f6fc; background: #ffffff0a; }
+    .arrow { font-size: 17px; line-height: 1; }
+    .section-heading { margin: 47px 0 19px; }
+    .section-heading h2 { margin: 0; font-size: 21px; letter-spacing: -.03em; }
+    .section-heading p { margin: 7px 0 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { min-height: 177px; padding: 23px; border: 1px solid #e5eaf1; border-radius: 15px; background: white; box-shadow: 0 5px 18px #1a2d4a08; }
+    .icon { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 11px; color: #315eea; background: #eef2ff; font-size: 17px; font-weight: 800; }
+    .card h3 { margin: 17px 0 7px; font-size: 15px; letter-spacing: -.015em; }
+    .card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .tech { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+    .tag { padding: 8px 11px; border: 1px solid #e3e9f1; border-radius: 8px; color: #4d5b70; background: white; font-size: 12px; font-weight: 650; }
+    .notice { display: flex; align-items: flex-start; gap: 12px; margin-top: 28px; padding: 16px 18px; border: 1px solid #dce7ff; border-radius: 12px; color: #495a75; background: #edf3ff; font-size: 12px; line-height: 1.65; }
+    .notice strong { color: #253b69; }
+    footer { display: flex; justify-content: space-between; gap: 15px; margin-top: 42px; padding-top: 20px; border-top: 1px solid #e1e7ef; color: #7b8799; font-size: 12px; }
+    footer a { color: #52637c; font-weight: 650; text-decoration: none; }
+    @media (max-width: 720px) {
+      .topbar { height: 64px; padding: 0 19px; }
+      main { padding: 22px 16px 45px; }
+      .hero { padding: 42px 26px; border-radius: 18px; }
+      .intro { font-size: 15px; }
+      .grid { grid-template-columns: 1fr; }
+      .card { min-height: 0; }
+      .section-heading { margin-top: 36px; }
+      footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Job Portal API project home">
+      <span class="brand-mark" aria-hidden="true">J</span>
+      <span>Job Portal <span style="color:#71809a;font-weight:600">/ API Demo</span></span>
+    </a>
+    <a class="top-link" href="/swagger-ui/index.html">Explore API <span class="arrow" aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Live project demo</div>
+      <h1 id="hero-title">A secure foundation for better hiring.</h1>
+      <p class="intro">A backend-focused job portal built with Spring Boot. Explore the API for candidate registration, recruiter job listings, applications, and resume workflows.</p>
+      <div class="actions">
+        <a class="button button-primary" href="/swagger-ui/index.html">Explore the API <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="button button-secondary" href="https://github.com/priyanshu0011-singhh/job-portal" target="_blank" rel="noopener noreferrer">View source on GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section aria-labelledby="capabilities-title">
+      <div class="section-heading">
+        <h2 id="capabilities-title">Built for the complete hiring flow</h2>
+        <p>Explore the documented endpoints and see how the backend is put together.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="icon" aria-hidden="true">01</div>
+          <h3>Secure authentication</h3>
+          <p>JWT-based sign-in with role-aware access for candidates, recruiters, and admins.</p>
+        </article>
+        <article class="card">
+          <div class="icon" aria-hidden="true">02</div>
+          <h3>Jobs and discovery</h3>
+          <p>Recruiter job management with API endpoints for browsing and keyword search.</p>
+        </article>
+        <article class="card">
+          <div class="icon" aria-hidden="true">03</div>
+          <h3>Applications and resumes</h3>
+          <p>Application workflows and resume file handling through documented REST endpoints.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="stack-title">
+      <div class="section-heading">
+        <h2 id="stack-title">A modern Java backend</h2>
+      </div>
+      <div class="tech" aria-label="Technology stack">
+        <span class="tag">Java 17</span>
+        <span class="tag">Spring Boot 3</span>
+        <span class="tag">Spring Security</span>
+        <span class="tag">JWT</span>
+        <span class="tag">Spring Data JPA</span>
+        <span class="tag">Flyway</span>
+        <span class="tag">Docker</span>
+        <span class="tag">OpenAPI / Swagger</span>
+      </div>
+    </section>
+
+    <aside class="notice">
+      <span aria-hidden="true">ⓘ</span>
+      <span><strong>Demo environment:</strong> This API runs on a free instance that may take a little time to wake after inactivity. Demo data and uploaded files are temporary; please don’t enter real personal information.</span>
+    </aside>
+
+    <footer>
+      <span>Job Portal System · Spring Boot REST API project</span>
+      <a href="/swagger-ui/index.html">API documentation <span aria-hidden="true">↗</span></a>
+    </footer>
+  </main>
+</body>
+</html>
